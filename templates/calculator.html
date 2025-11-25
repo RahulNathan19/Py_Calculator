@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python Web Calculator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <header class="header">
+            <h1>Python Web Calculator</h1>
+            <div class="mode-toggle">
+                <button id="basic-mode" class="mode-btn active" data-mode="basic">Basic</button>
+                <button id="scientific-mode" class="mode-btn" data-mode="scientific">Scientific</button>
+                <button id="programming-mode" class="mode-btn" data-mode="programming">Programming</button>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <div class="calculator-container">
+                <div class="calculator">
+                    <!-- Display Section -->
+                    <div class="display-section">
+                        <div class="expression" id="expression"></div>
+                        <div class="display" id="display">0</div>
+                        <div class="error" id="error" style="display: none;"></div>
+                    </div>
+
+                    <!-- Text Input Section -->
+                    <div class="text-input-section">
+                        <input type="text"
+                               id="text-input"
+                               class="text-input"
+                               placeholder="Type expression here (e.g., 2+3*4)"
+                               autocomplete="off">
+                        <button id="calculate-btn" class="calculate-btn" aria-label="Calculate">
+                            =
+                        </button>
+                    </div>
+
+                    <!-- Basic Mode Buttons -->
+                    <div class="button-grid basic-mode" id="basic-buttons">
+                        <!-- Row 1 -->
+                        <button class="button clear" data-action="clear">C</button>
+                        <button class="button backspace" data-action="backspace">⌫</button>
+                        <button class="button function" data-action="parenthesis">( )</button>
+                        <button class="button operator" data-operator="/">÷</button>
+
+                        <!-- Row 2 -->
+                        <button class="button number" data-number="7">7</button>
+                        <button class="button number" data-number="8">8</button>
+                        <button class="button number" data-number="9">9</button>
+                        <button class="button operator" data-operator="*">×</button>
+
+                        <!-- Row 3 -->
+                        <button class="button number" data-number="4">4</button>
+                        <button class="button number" data-number="5">5</button>
+                        <button class="button number" data-number="6">6</button>
+                        <button class="button operator" data-operator="-">−</button>
+
+                        <!-- Row 4 -->
+                        <button class="button number" data-number="1">1</button>
+                        <button class="button number" data-number="2">2</button>
+                        <button class="button number" data-number="3">3</button>
+                        <button class="button operator" data-operator="+">+</button>
+
+                        <!-- Row 5 -->
+                        <button class="button number zero" data-number="0">0</button>
+                        <button class="button decimal" data-action="decimal">.</button>
+                        <button class="button function" data-action="negate">±</button>
+                        <button class="button equals" data-action="equals">=</button>
+                    </div>
+
+                    <!-- Scientific Mode Buttons -->
+                    <div class="button-grid scientific-mode" id="scientific-buttons" style="display: none;">
+                        <!-- Scientific Functions Row -->
+                        <button class="button function scientific" data-function="sin">sin</button>
+                        <button class="button function scientific" data-function="cos">cos</button>
+                        <button class="button function scientific" data-function="tan">tan</button>
+                        <button class="button function scientific" data-function="log">log</button>
+
+                        <button class="button function scientific" data-function="ln">ln</button>
+                        <button class="button function scientific" data-function="sqrt">√</button>
+                        <button class="button function scientific" data-function="abs">|x|</button>
+                        <button class="button function scientific" data-function="pi">π</button>
+
+                        <button class="button function scientific" data-function="floor">⌊⌋</button>
+                        <button class="button function scientific" data-function="ceil">⌈⌉</button>
+                        <button class="button function scientific" data-function="exp">e^x</button>
+                        <button class="button operator" data-operator="^">x^y</button>
+
+                        <!-- Standard basic buttons -->
+                        <button class="button clear" data-action="clear">C</button>
+                        <button class="button backspace" data-action="backspace">⌫</button>
+                        <button class="button function" data-action="parenthesis">( )</button>
+                        <button class="button operator" data-operator="/">÷</button>
+
+                        <button class="button number" data-number="7">7</button>
+                        <button class="button number" data-number="8">8</button>
+                        <button class="button number" data-number="9">9</button>
+                        <button class="button operator" data-operator="*">×</button>
+
+                        <button class="button number" data-number="4">4</button>
+                        <button class="button number" data-number="5">5</button>
+                        <button class="button number" data-number="6">6</button>
+                        <button class="button operator" data-operator="-">−</button>
+
+                        <button class="button number" data-number="1">1</button>
+                        <button class="button number" data-number="2">2</button>
+                        <button class="button number" data-number="3">3</button>
+                        <button class="button operator" data-operator="+">+</button>
+
+                        <button class="button number zero" data-number="0">0</button>
+                        <button class="button decimal" data-action="decimal">.</button>
+                        <button class="button function" data-action="negate">±</button>
+                        <button class="button equals" data-action="equals">=</button>
+                    </div>
+
+                    <!-- Programming Mode Buttons -->
+                    <div class="button-grid programming-mode" id="programming-buttons" style="display: none;">
+                        <!-- Programming Functions Row -->
+                        <button class="button function programming" data-function="bin">BIN</button>
+                        <button class="button function programming" data-function="hex">HEX</button>
+                        <button class="button function programming" data-function="oct">OCT</button>
+                        <button class="button function programming" data-function="int">INT</button>
+
+                        <button class="button operator bitwise" data-operator="&">AND</button>
+                        <button class="button operator bitwise" data-operator="|">OR</button>
+                        <button class="button operator bitwise" data-operator="^">XOR</button>
+                        <button class="button operator bitwise" data-operator="~">NOT</button>
+
+                        <button class="button operator bitwise" data-operator="<<"><<</button>
+                        <button class="button operator bitwise" data-operator=">>">>></button>
+                        <button class="button operator" data-operator="%">MOD</button>
+                        <button class="button function" data-action="parenthesis">( )</button>
+
+                        <!-- Standard number buttons -->
+                        <button class="button clear" data-action="clear">C</button>
+                        <button class="button backspace" data-action="backspace">⌫</button>
+                        <button class="button function programming" data-function="hex">A</button>
+                        <button class="button function programming" data-function="hex">B</button>
+
+                        <button class="button number" data-number="7">7</button>
+                        <button class="button number" data-number="8">8</button>
+                        <button class="button number" data-number="9">9</button>
+                        <button class="button function programming" data-function="hex">C</button>
+
+                        <button class="button number" data-number="4">4</button>
+                        <button class="button number" data-number="5">5</button>
+                        <button class="button number" data-number="6">6</button>
+                        <button class="button function programming" data-function="hex">D</button>
+
+                        <button class="button number" data-number="1">1</button>
+                        <button class="button number" data-number="2">2</button>
+                        <button class="button number" data-number="3">3</button>
+                        <button class="button function programming" data-function="hex">E</button>
+
+                        <button class="button number zero" data-number="0">0</button>
+                        <button class="button number" data-number="0">0</button>
+                        <button class="button function programming" data-function="hex">F</button>
+                        <button class="button equals" data-action="equals">=</button>
+                    </div>
+
+                    <!-- Loading Indicator -->
+                    <div class="loading" id="loading" style="display: none;">
+                        <div class="spinner"></div>
+                    </div>
+                </div>
+
+                <!-- History Panel -->
+                <div class="history-panel" id="history-panel">
+                    <div class="history-header">
+                        <h3>History</h3>
+                        <div class="history-controls">
+                            <button id="toggle-history" class="history-toggle" aria-label="Toggle History">
+                                <span id="history-arrow">▼</span>
+                            </button>
+                            <button id="clear-history" class="history-clear" aria-label="Clear History">
+                                Clear
+                            </button>
+                        </div>
+                    </div>
+                    <div class="history-content" id="history-content">
+                        <div class="history-empty" id="history-empty">
+                            No calculations yet
+                        </div>
+                        <div class="history-list" id="history-list" style="display: none;">
+                            <!-- History items will be added here dynamically -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Instructions Panel -->
+            <div class="instructions">
+                <h3>Keyboard Shortcuts</h3>
+                <ul>
+                    <li><kbd>0-9</kbd> - Numbers</li>
+                    <li><kbd>+ - * /</kbd> - Basic operations</li>
+                    <li><kbd>Enter</kbd> - Calculate result</li>
+                    <li><kbd>Escape</kbd> - Clear display</li>
+                    <li><kbd>Backspace</kbd> - Delete last character</li>
+                    <li><kbd>( )</kbd> - Parentheses</li>
+                    <li><kbd>^</kbd> - Power operation</li>
+                </ul>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <p>&copy; 2024 Python Web Calculator - Fast, Simple, Easy to Use</p>
+        </footer>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/calculator.js') }}"></script>
+</body>
+</html>
